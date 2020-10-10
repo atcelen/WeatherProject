@@ -65,13 +65,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         weatherRecyclerAdapter = new WeatherRecyclerAdapter(weatherModelsList);
         recyclerView.setAdapter(weatherRecyclerAdapter);
-        /*
-        Intent intent = getIntent();
-        if(intent != null && intent.getStringExtra("IntentID") != null) {
-            loadData(intent.getStringExtra("addedWeatherItem").toString());
-        }
 
-         */
         getData();
     }
 

@@ -49,7 +49,6 @@ public class AddItemActivity extends AppCompatActivity {
         }
 
         Intent intentToMainActivity = new Intent (AddItemActivity.this, MainActivity.class);
-        //intentToMainActivity.putExtra("addedWeatherItem", editText.getText().toString());
         intentToMainActivity.putExtra("IntentID", "fromAddItemActivity");
         startActivity(intentToMainActivity);
 
