@@ -21,7 +21,6 @@ public class AddItemActivity extends AppCompatActivity {
 
     EditText editText;
     Button button;
-    ArrayList<WeatherModel> weatherModelsList;
     SQLiteDatabase database;
 
     @Override

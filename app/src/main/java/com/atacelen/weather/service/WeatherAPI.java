@@ -4,6 +4,7 @@ import com.atacelen.weather.model.WeatherModel;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,6 +15,7 @@ public interface WeatherAPI {
 
 
     @GET("data/2.5/weather?units=metric&appid=3a6c0733f5817ec1771722c473f775b1")
+    //Observable<WeatherModel> getData(@Query("q") String location);
     Call<WeatherModel> getData(@Query("q") String location);
 
 }

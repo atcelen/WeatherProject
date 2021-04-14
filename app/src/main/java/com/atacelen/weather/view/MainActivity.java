@@ -29,11 +29,15 @@ import com.squareup.picasso.Target;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 //https://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=3a6c0733f5817ec1771722c473f775b1
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     Retrofit retrofit;
     WeatherRecyclerAdapter weatherRecyclerAdapter;
+    CompositeDisposable compositeDisposable;
 
 
     @Override
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
@@ -80,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                     WeatherModel weatherModels = response.body();
                     weatherModels.initiate();
                     weatherModelsList.add(weatherModels);
-                    System.out.println(weatherModels.name);
                     weatherRecyclerAdapter.notifyDataSetChanged();
 
                 }
@@ -93,6 +98,36 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
+    /*
+
+    private void loadData(String location) {
+        final WeatherAPI weatherAPI = retrofit.create(WeatherAPI.class);
+
+        compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(weatherAPI.getData(location)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::handleResponse));
+    }
+
+    private void handleResponse(WeatherModel weatherModels) {
+        weatherModels.initiate();
+        weatherModelsList.add(weatherModels);
+        weatherRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
+
+     */
+
+
+
+
     public void getData(){
         try{
             SQLiteDatabase database = this.openOrCreateDatabase("WeatherReports", MODE_PRIVATE, null);
@@ -103,8 +138,6 @@ public class MainActivity extends AppCompatActivity {
             while(cursor.moveToNext()){
                 loadData(cursor.getString(nameIx));
             }
-
-            weatherRecyclerAdapter.notifyDataSetChanged();
 
             cursor.close();
 

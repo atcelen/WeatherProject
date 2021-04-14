@@ -62,7 +62,6 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         };
         holder.icon.setTag(target);
         String url = "https://openweathermap.org/img/wn/"+weatherModels.get(position).getIcon()+"@2x.png";
-        System.out.println(url);
         Picasso.get().load(url).into(target);
 
     }
